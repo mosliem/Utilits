@@ -52,12 +52,12 @@ extension UIView{
         padding: CGFloat
     ){
         switch relation{
-            case .GreaterOrEqual:
-                viewAnchor.constraint(greaterThanOrEqualTo: relativeAnchor, constant: padding).isActive = true
-            case .Equal:
-                viewAnchor.constraint(equalTo: relativeAnchor, constant: padding).isActive = true
-            case .LessOrEqual:
-                viewAnchor.constraint(lessThanOrEqualTo: relativeAnchor, constant: padding).isActive = true
+        case .GreaterOrEqual:
+            viewAnchor.constraint(greaterThanOrEqualTo: relativeAnchor, constant: padding).isActive = true
+        case .Equal:
+            viewAnchor.constraint(equalTo: relativeAnchor, constant: padding).isActive = true
+        case .LessOrEqual:
+            viewAnchor.constraint(lessThanOrEqualTo: relativeAnchor, constant: padding).isActive = true
         }
     }
     
@@ -70,7 +70,11 @@ extension UIView{
         setSizeConstraints(for: heightAnchor, sizeRelation: heightRelation, paddingSize: heightPadding)
     }
     
-    private func setSizeConstraints(for sizeAnchor: NSLayoutDimension, sizeRelation: ConstraintsRelation, paddingSize: CGFloat){
+    private func setSizeConstraints(
+        for sizeAnchor: NSLayoutDimension,
+        sizeRelation: ConstraintsRelation,
+        paddingSize: CGFloat
+    ){
         switch sizeRelation {
             case .GreaterOrEqual:
                 sizeAnchor.constraint(greaterThanOrEqualToConstant: paddingSize).isActive = true
