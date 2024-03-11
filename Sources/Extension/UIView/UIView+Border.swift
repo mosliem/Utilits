@@ -10,6 +10,26 @@ import UIKit
 
 extension UIView{
     
+    @IBInspectable
+    public var borderWidth: CGFloat {
+        get{
+            return layer.borderWidth
+        }
+        set{
+            layer.borderWidth = newValue
+        }
+    }
+    
+    @IBInspectable
+    public var borderColor: CGColor {
+        get{
+            return layer.borderColor ?? UIColor.clear.cgColor
+        }
+        set{
+            layer.borderColor = newValue
+        }
+    }
+    
     public func addBorder(width: CGFloat, color: UIColor) {
         layer.borderWidth = width
         layer.borderColor = color.cgColor
@@ -17,7 +37,7 @@ extension UIView{
     }
     
     public func addBorderTopWithPadding(size: CGFloat, color: UIColor, padding: CGFloat) {
-        addBorder(x: padding, y: 0, width: frame.width - padding*2, height: size, color: color)
+        addBorder(x: padding, y: 0, width: frame.width - padding * 2, height: size, color: color)
     }
     
     public func addBorderBottom(size: CGFloat, color: UIColor) {
