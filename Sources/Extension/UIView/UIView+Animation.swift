@@ -13,8 +13,8 @@ extension UIView {
         UIView.animate(
             withDuration: duration,
             animations:{
-                    self.transform = CGAffineTransform(scaleX: scaleX, y: scaleY)
-                },
+                self.transform = CGAffineTransform(scaleX: scaleX, y: scaleY)
+            },
             completion: { _ in
                 UIView.animate(withDuration: duration) {
                     self.transform = .identity
@@ -30,7 +30,7 @@ extension UIView {
                        options: [.curveEaseInOut],
                        animations: {
             self.center = position
-        }, completion: nil)
+        })
     }
     
 }
