@@ -9,7 +9,7 @@ import UIKit
 
 extension UIScrollView {
     
-    func scrollToView(view: UIView, animated: Bool) {
+    public func scrollToView(view: UIView, animated: Bool) {
         if let origin = view.superview {
             UIView.animate(withDuration: 0.4, animations: {
                 // Get the Y position of the child view
@@ -20,22 +20,22 @@ extension UIScrollView {
         }
     }
     
-    func scrollTo(horizontalOffset: CGFloat, animated: Bool) {
+    public func scrollTo(horizontalOffset: CGFloat, animated: Bool) {
         let desiredOffset = CGPoint(x: horizontalOffset, y: contentOffset.y)
         setContentOffset(desiredOffset, animated: animated)
     }
     
-    func scrollTo(verticalOffset: CGFloat, animated: Bool) {
+    public func scrollTo(verticalOffset: CGFloat, animated: Bool) {
         let desiredOffset = CGPoint(x: contentOffset.x, y: verticalOffset)
         setContentOffset(desiredOffset, animated: animated)
     }
     
-    func scrollToTop(animated: Bool) {
+    public func scrollToTop(animated: Bool) {
         let topOffset = CGPoint(x: 0, y: -contentInset.top)
         setContentOffset(topOffset, animated: animated)
     }
     
-    func scrollToBottom() {
+    public func scrollToBottom() {
         let bottomOffset = CGPoint(x: 0, y: contentSize.height - bounds.size.height + contentInset.bottom)
         if(bottomOffset.y > 0) {
             setContentOffset(bottomOffset, animated: true)

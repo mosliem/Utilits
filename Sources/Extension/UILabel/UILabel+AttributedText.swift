@@ -9,7 +9,7 @@ import UIKit
 
 extension UILabel {
     
-    func setLineSpacing(_ spacing: CGFloat) {
+    public func setLineSpacing(_ spacing: CGFloat) {
         guard let text = self.text else { return }
         let attributedString = NSMutableAttributedString(string: text)
         let style = NSMutableParagraphStyle()
@@ -18,14 +18,14 @@ extension UILabel {
         self.attributedText = attributedString
     }
     
-    func setCharacterSpacing(_ spacing: CGFloat) {
+    public func setCharacterSpacing(_ spacing: CGFloat) {
         guard let text = self.text else { return }
         let attributedString = NSMutableAttributedString(string: text)
         attributedString.addAttribute(.kern, value: spacing, range: NSRange(location: 0, length: attributedString.length))
         self.attributedText = attributedString
     }
     
-    func setAttributedTextWithInsets(text: NSAttributedString, insets: UIEdgeInsets) {
+    public func setAttributedTextWithInsets(text: NSAttributedString, insets: UIEdgeInsets) {
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.alignment = self.textAlignment
         paragraphStyle.lineBreakMode = self.lineBreakMode

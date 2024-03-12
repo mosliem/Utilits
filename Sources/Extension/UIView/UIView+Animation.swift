@@ -8,7 +8,7 @@
 import UIKit
 
 extension UIView {
-    func stretchAnimate(duration: CGFloat, scaleX: CGFloat, scaleY: CGFloat){
+    public func stretchAnimate(duration: CGFloat, scaleX: CGFloat, scaleY: CGFloat){
         
         UIView.animate(
             withDuration: duration,
@@ -22,7 +22,7 @@ extension UIView {
             })
     }
     
-    func springAnimate(to position: CGPoint, duration: TimeInterval, damping: CGFloat, velocity: CGFloat) {
+    public func springAnimate(to position: CGPoint, duration: TimeInterval, damping: CGFloat, velocity: CGFloat) {
         UIView.animate(withDuration: duration,
                        delay: 0,
                        usingSpringWithDamping: damping,

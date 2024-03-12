@@ -26,7 +26,7 @@ extension UIView {
     }
     
     //Round only chosen corners
-    func round(corners: UIRectCorner, radius: CGFloat){
+   public func round(corners: UIRectCorner, radius: CGFloat){
         let path = UIBezierPath(
             roundedRect: self.bounds,
             byRoundingCorners: corners,
