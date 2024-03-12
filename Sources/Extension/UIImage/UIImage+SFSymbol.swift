@@ -1,5 +1,5 @@
 //
-//  File.swift
+//  UIImage+SFSymobl.swift
 //
 //
 //  Created by mohamed sliem on 11/03/2024.
@@ -8,6 +8,7 @@
 import UIKit
 
 extension UIImage {
+    
     public func SFImage(
         systemName: String,
         pointSize: CGFloat,

@@ -1,6 +1,6 @@
 //
-//  File.swift
-//  
+//  UILabel+AttributedText.swift
+//
 //
 //  Created by mohamed sliem on 12/03/2024.
 //
