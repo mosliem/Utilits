@@ -85,7 +85,7 @@ extension UIView{
         }
     }
     
-    func center(
+    public func center(
         centerX : NSLayoutXAxisAnchor? = nil, paddingX : CGFloat? = nil ,
         centerY : NSLayoutYAxisAnchor? = nil, paddingY : CGFloat? = nil
     ){

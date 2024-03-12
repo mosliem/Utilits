@@ -19,7 +19,7 @@ extension UIView {
         }
     }
     
-    func roundView(cornerRadius: CGFloat){
+    public func roundView(cornerRadius: CGFloat){
         self.layer.cornerRadius = cornerRadius
         self.layer.masksToBounds = true
         self.setNeedsDisplay()

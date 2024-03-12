@@ -9,7 +9,7 @@ import UIKit
 
 extension UITableView {
     
-    func dequeueReusableCell<T: UITableViewCell>(withClass name: T.Type) -> T {
+    public func dequeueReusableCell<T: UITableViewCell>(withClass name: T.Type) -> T {
         
         guard let cell = dequeueReusableCell(withIdentifier: String(describing: name)) as? T else {
             fatalError(
@@ -19,7 +19,7 @@ extension UITableView {
         return cell
     }
     
-    func dequeueReusableCell<T: UITableViewCell> (
+    public func dequeueReusableCell<T: UITableViewCell> (
         withClass name: T.Type,
         for indexPath: IndexPath
     ) -> T {
@@ -32,7 +32,7 @@ extension UITableView {
         return cell
     }
     
-    func dequeueReusableHeaderFooterView<T: UITableViewHeaderFooterView>(withClass name: T.Type) -> T {
+    public func dequeueReusableHeaderFooterView<T: UITableViewHeaderFooterView>(withClass name: T.Type) -> T {
         
         guard let headerFooterView = dequeueReusableHeaderFooterView(
             withIdentifier: String(describing: name)
