@@ -42,7 +42,14 @@ extension UIView{
         to relativeAnchor: NSLayoutYAxisAnchor,
         padding: CGFloat
     ){
-        
+        switch relation {
+        case .Equal:
+            viewAnchor.constraint(equalTo: relativeAnchor, constant: padding).isActive = true
+        case .LessOrEqual:
+            viewAnchor.constraint(lessThanOrEqualTo: relativeAnchor, constant: padding).isActive = true
+        case .GreaterOrEqual:
+            viewAnchor.constraint(greaterThanOrEqualTo: relativeAnchor, constant: padding).isActive = true
+        }
     }
     
     private func setHorizontalAnchor(

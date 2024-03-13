@@ -19,22 +19,13 @@ extension UIView {
         }
         
         self.addSubview(contentView)
-        contentView.translatesAutoresizingMaskIntoConstraints = false
-        contentView.layoutAttachAll()
-        return contentView
-    }
-    
-    public func layoutAttachAll() {
-        setConstraints(
-            top: self.topAnchor,
-            paddingTop: 0,
-            bottom: self.bottomAnchor,
-            paddingBottom: 0,
-            leading: self.leadingAnchor,
-            paddingLeading:0,
-            trailing: self.trailingAnchor,
-            paddingTrailing: 0
+        contentView.setConstraints(
+            top: topAnchor,
+            bottom: bottomAnchor,
+            leading: leadingAnchor,
+            trailing: trailingAnchor
         )
+        return contentView
     }
     
 }
