@@ -10,21 +10,23 @@ import UIKit
 
 extension UINavigationBar {
     
-    public func setTitle(with font: UIFont, color: UIColor = .black) {
+    public func setTitle(with font: UIFont, color: UIColor?) {
         var attributes = [NSAttributedString.Key: Any]()
         attributes[.font] = font
         attributes[.foregroundColor] = color
         titleTextAttributes = attributes
     }
 
-    public func makeTransparent(with tint: UIColor = .white) {
+    public func makeTransparent(with tint: UIColor?) {
         isTranslucent = true
         backgroundColor = .clear
         barTintColor = .clear
         setBackgroundImage(UIImage(), for: .default)
-        tintColor = tint
-        titleTextAttributes = [.foregroundColor: tint]
         shadowImage = UIImage()
+        
+        guard let color = tint else {return}
+        tintColor = color
+        titleTextAttributes = [.foregroundColor: color]
     }
     
     public func setColor(for background: UIColor, text: UIColor) {

@@ -10,8 +10,8 @@ import UIKit
 extension UIButton{
     
     public func setButton(
-        backgroundColor: UIColor? = .white,
-        tintColor: UIColor? = .blue,
+        backgroundColor: UIColor?,
+        tintColor: UIColor?,
         backgroundAlpha: CGFloat = 1,
         tintAlpha: CGFloat = 1
     ){
