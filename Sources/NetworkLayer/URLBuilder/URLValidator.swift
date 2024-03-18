@@ -12,7 +12,7 @@ class URLValidator {
     static let shared = URLValidator()
     
     private let schemas = ["http","https"]
-    private init() {}
+    init() {}
     
     public func validate(_ schema: String) -> Bool{
         guard schemas.contains(schema) else {

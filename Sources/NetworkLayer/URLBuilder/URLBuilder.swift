@@ -13,28 +13,34 @@ class URLBuilder {
     private var host: String
     private var path: String
     private var queryItems: [String: String]
+    private var urlValidator: URLValidator
     
-    init(schema: String, host: String, path: String, queryItems: [String : String]) {
+    init(schema: String, host: String, path: String, queryItems: [String : String], validator: URLValidator = URLValidator()) {
         self.schema = schema
         self.host = host
         self.path = path
         self.queryItems = queryItems
+        self.urlValidator = validator
     }
     
-    public func build() throws {
+    public func build() throws -> URL? {
+        var url: URL?
+        
         do {
             let hostURL = try buildHostURL()
             let fullURL = try buildUrl(with: hostURL , relative: path)
+            url = include(queryParamters: queryItems, with: fullURL)
         }
         catch {
             throw error as? URLError ?? error
         }
+        return url
     }
     
     private func buildHostURL() throws -> String {
         let hostString = schema + "://" + host
         
-        guard URLValidator.shared.validate(host: hostString) else {
+        guard urlValidator.validate(host: hostString) else {
             throw URLError.hostError
         }
         
@@ -45,7 +51,6 @@ class URLBuilder {
         guard let url = URL(string: host) else {
             throw URLError.hostError
         }
-        var hostURL = url
         guard let fullURL = URL(string: path, relativeTo: url) else {
             throw URLError.hostError
         }
