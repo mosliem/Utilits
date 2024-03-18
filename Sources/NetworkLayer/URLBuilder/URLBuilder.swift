@@ -15,7 +15,13 @@ class URLBuilder {
     private var queryItems: [String: String]
     private var urlValidator: Validator
     
-    init(schema: String, host: String, path: String, queryItems: [String : String], validator: Validator = URLValidator()) {
+    init(
+        schema: String,
+        host: String,
+        path: String,
+        queryItems: [String : String],
+        validator: Validator = URLValidator()
+    ) {
         self.schema = schema
         self.host = host
         self.path = path

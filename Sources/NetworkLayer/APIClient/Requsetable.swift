@@ -15,10 +15,12 @@ public protocol Requsetable {
     var path: String {get}
     var queryParameters: [String: Any] {get set}
     
-    //MARK: - Request Parameters
+    //MARK: - Request
     var headers: [String: String] { get set }
     var httpMethod: HTTPMethod { get }
-    var httpBody:  [String: Any] {get set}
+    var httpBody:  [String: Any] { get set }
+    var timeoutInterval: TimeInterval { get set }
+    var networkService: URLRequest.NetworkServiceType { get set }
 }
 
 extension Requsetable {
