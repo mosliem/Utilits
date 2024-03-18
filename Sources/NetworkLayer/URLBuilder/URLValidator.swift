@@ -7,7 +7,12 @@
 
 import Foundation
 
-class URLValidator {
+protocol Validator: AnyObject {
+    func validate(_ schema: String) -> Bool
+    func validate(host: String) -> Bool
+}
+
+class URLValidator: Validator{
     
     static let shared = URLValidator()
     
