@@ -8,10 +8,9 @@
 import Foundation
 
 
-enum URLError: String {
+enum URLError: Error {
     case schemaError
-    case DomainError
-    case pathError
+    case hostError
 }
 
 extension URLError {
@@ -21,10 +20,8 @@ extension URLError {
             
         case .schemaError:
             return "URL schema is not valid"
-        case .DomainError:
+        case .hostError:
             return "URL domain is not valid"
-        case .pathError:
-            return "URL path is not valid"
         }
     }
 }
