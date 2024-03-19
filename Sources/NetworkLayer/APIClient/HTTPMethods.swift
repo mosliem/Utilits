@@ -15,3 +15,14 @@ public enum HTTPMethod: String {
     case delete = "DELETE"
     case head = "HEAD"
 }
+
+extension HTTPMethod {
+    var hasBody: Bool {
+        switch self {
+            case .get , .head :
+                return false
+            default:
+                return true
+        }
+    }
+}

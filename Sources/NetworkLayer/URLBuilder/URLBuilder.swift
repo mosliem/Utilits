@@ -14,33 +14,45 @@ class URLBuilder {
     private var path: String
     private var queryItems: [String: String]
     private var urlValidator: Validator
+    private var port: Int?
+    
+    //MARK: -  URL Components
+    //parsing url components to assign queries and port number to URL 
+    private var urlComponents: URLComponents?
     
     init(
         schema: String,
         host: String,
         path: String,
         queryItems: [String : String],
+        port: Int? = nil,
         validator: Validator = URLValidator()
     ) {
         self.schema = schema
         self.host = host
         self.path = path
         self.queryItems = queryItems
+        self.port = port
         self.urlValidator = validator
     }
     
     public func build() throws -> URL? {
-        var url: URL?
         
         do {
             let hostURL = try buildHostURL()
             let fullURL = try buildUrl(with: hostURL , relative: path)
-            url = include(queryParamters: queryItems, with: fullURL)
+            include(queryParamters: queryItems, with: fullURL)
         }
         catch {
             throw error as? URLError ?? error
         }
-        return url
+        
+        guard let port = port else {
+            return urlComponents?.url
+        }
+        //Assigning port number if it existed
+        setURL(portNumber: port)
+        return urlComponents?.url
     }
     
     private func buildHostURL() throws -> String {
@@ -63,6 +75,11 @@ class URLBuilder {
         return fullURL
     }
     
+    private func initURLCompentents(with url: URL){
+        urlComponents = URLComponents(url: url, resolvingAgainstBaseURL: true)
+    }
+    
+    @discardableResult
     private func include(queryParamters: [String: Any], with url: URL) -> URL? {
         guard !queryParamters.isEmpty else {
             return nil
@@ -74,9 +91,11 @@ class URLBuilder {
             urlQueries.append(item)
         }
         
-        var urlCompentents = URLComponents(url: url, resolvingAgainstBaseURL: true)
-        urlCompentents?.queryItems = urlQueries
-        return urlCompentents?.url
+        urlComponents?.queryItems = urlQueries
+        return urlComponents?.url
     }
     
+    private func setURL(portNumber: Int) {
+        urlComponents?.port = portNumber
+    }
 }

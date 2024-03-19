@@ -21,9 +21,14 @@ public protocol Requsetable {
     var httpBody:  [String: Any] { get set }
     var timeoutInterval: TimeInterval { get set }
     var networkService: URLRequest.NetworkServiceType { get set }
+    var port: Int? { get set }
 }
 
 extension Requsetable {
+    var port: Int? {
+        return nil
+    }
+    
     var queryParameters: [String: Any] {
         return [:]
     }
@@ -36,5 +41,12 @@ extension Requsetable {
         return [:]
     }
 
+    var timeoutInterval: TimeInterval {
+        return 60
+    }
+    
+    var networkService: URLRequest.NetworkServiceType {
+        return URLRequest.NetworkServiceType.default
+    }
 }
 
