@@ -7,7 +7,7 @@
 
 import Foundation
 
-class URLBuilder {
+class URLBuilder: URLBuildable {
     
     private var schema: String
     private var host: String

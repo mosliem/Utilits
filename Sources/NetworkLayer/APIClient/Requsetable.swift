@@ -14,14 +14,14 @@ public protocol Requsetable {
     var host: String { get }
     var path: String {get}
     var queryParameters: [String: Any] {get set}
-    
+    var port: Int? { get set }
+
     //MARK: - Request
     var headers: [String: String] { get set }
     var httpMethod: HTTPMethod { get }
     var httpBody:  [String: Any] { get set }
     var timeoutInterval: TimeInterval { get set }
     var networkService: URLRequest.NetworkServiceType { get set }
-    var port: Int? { get set }
 }
 
 extension Requsetable {

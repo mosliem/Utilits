@@ -7,16 +7,16 @@
 
 import Foundation
 
-class Request{
+class Request: BaseRequest{
     
-    private var url: URL
-    private var httpMehtod: HTTPMethod
-    private var networkType: URLRequest.NetworkServiceType
-    private var headers: [String: String]
-    private var httpBody: Data?
-    private var timeoutInterval: TimeInterval
+    var url: URL
+    var httpMehtod: HTTPMethod
+    var networkType: URLRequest.NetworkServiceType
+    var headers: [String: String]
+    var httpBody: Data?
+    var timeoutInterval: TimeInterval
     
-    private var request: URLRequest?
+    var request: URLRequest?
     
     init(
         url: URL,
@@ -32,25 +32,5 @@ class Request{
         self.headers = headers
         self.httpBody = httpBody
         self.timeoutInterval = timeoutInterval
-    }
-    
-    public func inializedRequest() {
-        request = URLRequest(url: url)
-    }
-    
-    public func setHttpMethod(){
-        request?.httpMethod = httpMehtod.rawValue
-    }
-    
-    public func setHttpHeaders(){
-        request?.allHTTPHeaderFields = headers
-    }
-    
-    public func setHttpBody(){
-        request?.httpBody = httpBody
-    }
- 
-    public func setNetworkType(){
-        request?.networkServiceType = networkType
     }
 }
