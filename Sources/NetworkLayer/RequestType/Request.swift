@@ -7,7 +7,7 @@
 
 import Foundation
 
-class Request: BaseRequest{
+class Request: BaseRequestable{
     
     var url: URL
     var httpMehtod: HTTPMethod

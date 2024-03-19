@@ -7,7 +7,7 @@
 
 import Foundation
 
- protocol BaseRequest: AnyObject{
+ protocol BaseRequestable: AnyObject{
     
     var url: URL { get set }
     var httpMehtod: HTTPMethod { get set }
@@ -27,7 +27,7 @@ import Foundation
      func build() -> URLRequest?
 }
 
-extension BaseRequest {
+extension BaseRequestable {
     public func inializedRequest() {
         request = URLRequest(url: url)
     }
