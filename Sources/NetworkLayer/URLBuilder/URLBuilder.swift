@@ -9,34 +9,33 @@ import Foundation
 
 class URLBuilder: URLBuildable {
     
-    private var schema: String
-    private var host: String
-    private var path: String
-    private var queryItems: [String: String]
-    private var urlValidator: Validator
-    private var port: Int?
+    private var schema: String = ""
+    private var host: String = ""
+    private var path: String = ""
+    private var queryItems: [String: Any] = [:]
+    private var port: Int? 
     
+    private var urlValidator: Validator
+    private var endpoint: Requsetable
     //MARK: -  URL Components
     //parsing url components to assign queries and port number to URL 
     private var urlComponents: URLComponents?
     
-    init(
-        schema: String,
-        host: String,
-        path: String,
-        queryItems: [String : String],
-        port: Int? = nil,
-        validator: Validator = URLValidator()
-    ) {
-        self.schema = schema
-        self.host = host
-        self.path = path
-        self.queryItems = queryItems
-        self.port = port
+    init(endpoint: Requsetable, validator: Validator) {
         self.urlValidator = validator
+        self.endpoint = endpoint
+        extract()
     }
     
-    public func build() throws -> URL? {
+    private func extract(){
+        self.schema = endpoint.schema
+        self.host = endpoint.host
+        self.path = endpoint.path
+        self.queryItems = endpoint.queryParameters
+        self.port = endpoint.port
+    }
+    
+    public func build() throws -> URL {
         
         do {
             let hostURL = try buildHostURL()
@@ -47,12 +46,16 @@ class URLBuilder: URLBuildable {
             throw error as? URLError ?? error
         }
         
-        guard let port = port else {
-            return urlComponents?.url
-        }
         //Assigning port number if it existed
-        setURL(portNumber: port)
-        return urlComponents?.url
+        if let port = port {
+            setURL(portNumber: port)
+        }
+        
+        guard let url = urlComponents?.url else {
+            throw URLError.urlComponentError
+        }
+        
+        return url
     }
     
     private func buildHostURL() throws -> String {
@@ -76,7 +79,7 @@ class URLBuilder: URLBuildable {
     }
     
     private func initURLCompentents(with url: URL){
-        urlComponents = URLComponents(url: url, resolvingAgainstBaseURL: true)
+        urlComponents = URLComponents(url: url, resolvingAgainstBaseURL: true)!
     }
     
     @discardableResult

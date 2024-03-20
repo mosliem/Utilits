@@ -8,5 +8,5 @@
 import Foundation
 
 protocol URLBuildable {
-    func build() throws -> URL?
+    func build() throws -> URL
 }

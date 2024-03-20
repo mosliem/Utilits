@@ -11,6 +11,7 @@ import Foundation
 enum URLError: Error {
     case schemaError
     case hostError
+    case urlComponentError
 }
 
 extension URLError {
@@ -22,6 +23,8 @@ extension URLError {
             return "URL schema is not valid"
         case .hostError:
             return "URL domain is not valid"
+        case .urlComponentError:
+            return "URL Component Error"
         }
     }
 }

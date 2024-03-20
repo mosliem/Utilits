@@ -7,50 +7,37 @@
 
 import Foundation
 
-class RequestBuilder {
+class RequestBuilder: RequestBuildable {
     
     private var endpoint: Requsetable
     
     init(endpoint: Requsetable){
         self.endpoint = endpoint
     }
-
+    
     //Base request for get and head methods
-    public func build(
-        with url: URL,
-        httpMethod: HTTPMethod,
-        headers: [String: String]? = nil,
-        timeoutInterval: TimeInterval? = nil,
-        networkService: URLRequest.NetworkServiceType? = nil
-    ) -> URLRequest? {
+    public func buildRequest(with url: URL) -> URLRequest? {
         
         let request: BaseRequestable = Request(
             url: url,
-            httpMehtod: httpMethod,
-            networkType: networkService ?? endpoint.networkService,
-            headers: headers ?? endpoint.headers, 
-            timeoutInterval: timeoutInterval ?? endpoint.timeoutInterval
+            httpMehtod: endpoint.httpMethod,
+            networkType: endpoint.networkService,
+            headers: endpoint.headers,
+            timeoutInterval: endpoint.timeoutInterval
         )
         buildBaseRequest(request: request)
         return request.build()
     }
     
     // POST JSON data
-    public func build(
-        with url: URL,
-        httpMethod: HTTPMethod,
-        httpBody: Data,
-        headers: [String: String]? = nil,
-        timeoutInterval: TimeInterval? = nil,
-        networkService: URLRequest.NetworkServiceType? = nil
-    ) -> URLRequest? {
+    public func buildRequestWithBody(with url: URL, httpBody: Data) -> URLRequest? {
         
         let request: BaseRequestable = Request(
             url: url,
-            httpMehtod: httpMethod,
-            networkType: networkService ?? endpoint.networkService,
-            headers: headers ?? endpoint.headers,
-            timeoutInterval: timeoutInterval ?? endpoint.timeoutInterval
+            httpMehtod: endpoint.httpMethod,
+            networkType: endpoint.networkService,
+            headers: endpoint.headers,
+            timeoutInterval: endpoint.timeoutInterval
         )
         
         buildBaseRequest(request: request)
@@ -60,26 +47,22 @@ class RequestBuilder {
     }
     
     //Multipart request
-    public func build(
+    public func buildMultipartRequest(
         with url: URL,
-        httpMethod: HTTPMethod,
-        headers: [String: String]? = nil,
-        timeoutInterval: TimeInterval? = nil,
-        networkService: URLRequest.NetworkServiceType? = nil,
-        with data: Data,
-        mimeType: String,
-        filename: String
+        filename: String,
+        filedata: Data,
+        mimeType: String
     ) -> URLRequest?{
         
         let request: MultiPartRequsetable = MultiPartRequest(
-            fileData: data,
+            fileData: filedata,
             filename: filename,
             mimeType: mimeType,
             url: url,
-            httpMehtod: httpMethod,
-            networkType: networkService ?? .default,
-            headers: headers ?? endpoint.headers ,
-            timeoutInterval: timeoutInterval ?? endpoint.timeoutInterval
+            httpMehtod: endpoint.httpMethod,
+            networkType: endpoint.networkService,
+            headers: endpoint.headers ,
+            timeoutInterval: endpoint.timeoutInterval
         )
         
         buildBaseRequest(request: request)
@@ -101,14 +84,14 @@ class RequestBuilder {
     private func buildBaseRequest<RequestType: BaseRequestable>(
         request: RequestType
     ) -> BaseRequestable{
-    
+        
         
         request.inializedRequest()
         request.setHttpMethod()
         request.setHttpHeaders()
         request.setTimeInterval()
         request.setNetworkType()
-    
+        
         return request
     }
 }
