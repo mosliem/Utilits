@@ -10,7 +10,7 @@ class NetworkManager {
     private var apiClient: APIExecuter!
     private init(){}
     
-    func executeRequest <ModelType: Codable> (
+    public func executeRequest <ModelType: Codable> (
         with endpoint: Requsetable,
         model: ModelType.Type
     ) async throws -> ModelType {
@@ -19,7 +19,7 @@ class NetworkManager {
         return result
     }
     
-    func executeRequest <ModelType: Encodable> (
+    public func executeRequest <ModelType: Encodable> (
         with endpoint: Requsetable,
         model: ModelType
     ) async throws -> Bool {
@@ -28,7 +28,7 @@ class NetworkManager {
         return result
     }
     
-    func executeMultipart(
+    public func executeMultipart(
         with endpoint: Requsetable,
         fileName: String,
         fileData: Data
@@ -38,7 +38,7 @@ class NetworkManager {
         return result
     }
     
-    func downloadData(from endpoint: Requsetable) async throws -> Data {
+    public func downloadData(from endpoint: Requsetable) async throws -> Data {
         apiClient = Containter.shared.injectApiClient(with: endpoint)
         let result = try await apiClient.executeRequest()
         return result
