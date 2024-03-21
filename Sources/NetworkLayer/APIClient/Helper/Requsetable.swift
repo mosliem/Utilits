@@ -17,30 +17,15 @@ public protocol Requsetable {
     var port: Int? { get set }
 
     //MARK: - Request
-    var headers: [String: String] { get set }
+    var headers: [String: String]? { get set }
     var httpMethod: HTTPMethod { get }
-    var httpBody:  [String: Any] { get set }
-    var timeoutInterval: TimeInterval { get set }
-    var networkService: URLRequest.NetworkServiceType { get set }
+    var httpBody: Data? { get set }
+    var timeoutInterval: TimeInterval? { get set }
+    var networkService: URLRequest.NetworkServiceType? { get set }
 }
 
 extension Requsetable {
-    var port: Int? {
-        return nil
-    }
     
-    var queryParameters: [String: Any] {
-        return [:]
-    }
-    
-    var httpBody: [String: Any] {
-        return [:]
-    }
-    
-    var headers: [String: String] {
-        return [:]
-    }
-
     var timeoutInterval: TimeInterval {
         return 60
     }

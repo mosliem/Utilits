@@ -11,10 +11,10 @@ class Request: BaseRequestable{
     
     var url: URL
     var httpMehtod: HTTPMethod
-    var networkType: URLRequest.NetworkServiceType
-    var headers: [String: String]
+    var networkType: URLRequest.NetworkServiceType?
+    var headers: [String: String]?
     var httpBody: Data?
-    var timeoutInterval: TimeInterval
+    var timeoutInterval: TimeInterval?
     
     var request: URLRequest?
     
@@ -22,7 +22,7 @@ class Request: BaseRequestable{
         url: URL,
         httpMehtod: HTTPMethod,
         networkType: URLRequest.NetworkServiceType,
-        headers: [String : String],
+        headers: [String : String]?,
         httpBody: Data? = nil,
         timeoutInterval: TimeInterval
     ) {

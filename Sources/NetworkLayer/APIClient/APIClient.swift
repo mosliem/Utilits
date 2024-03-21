@@ -33,7 +33,7 @@ class APIClient: APIExecuter {
 
         }
         catch {
-            throw error as? URLError ?? error
+            throw error
         }
     }
     
@@ -41,16 +41,15 @@ class APIClient: APIExecuter {
         model: modelType
     ) async throws -> Bool {
         var url: URL
-        var jsonData: Data
         do{
             url = try urlBuilder.build()
-            jsonData = try JSONEncoder().encode(model)
-            let request = (requestBuilder.buildRequestWithBody(with: url, httpBody: jsonData))!
+            endpoint.httpBody = try JSONEncoder().encode(model)
+            let request = (requestBuilder.buildRequestWithBody(with: url, httpBody: endpoint.httpBody))!
             let (_,response) = try await APIProvider.shared.executeRequest(request: request)
             return (response as? HTTPURLResponse)!.statusCode < 300
         }
         catch {
-            throw error as? URLError ?? error
+            throw error
         }
         
     }
@@ -63,15 +62,14 @@ class APIClient: APIExecuter {
         var url: URL
         do{
             url = try urlBuilder.build()
+            let mime = MimeTypeExtractor.shared.mimeType(for: fileName)
+            let request = try requestBuilder.buildMultipartRequest(with: url, filename: fileName, filedata: fileData, mimeType: mime)
+            let (_,response) = try await APIProvider.shared.executeRequest(request: request!)
+            return (response as? HTTPURLResponse)!.statusCode < 300
         }
         catch {
-            throw error as? URLError ?? error
+            throw error
         }
-        
-        let mime = MimeTypeExtractor.shared.mimeType(for: fileName)
-        let request = requestBuilder.buildMultipartRequest(with: url, filename: fileName, filedata: fileData, mimeType: mime)
-        let (_,response) = try await APIProvider.shared.executeRequest(request: request!)
-        return (response as? HTTPURLResponse)!.statusCode < 300
     }
     
 

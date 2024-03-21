@@ -20,19 +20,19 @@ class MultiPartRequest: MultiPartRequsetable {
     var url: URL
     
     var httpMehtod: HTTPMethod
-    var networkType: URLRequest.NetworkServiceType
-    var headers: [String : String]
+    var networkType: URLRequest.NetworkServiceType?
+    var headers: [String : String]?
     var httpBody: Data?
-    var timeoutInterval: TimeInterval
+    var timeoutInterval: TimeInterval?
     
     var request: URLRequest?
     
     init(
         fileData: Data, filename: String,
         mimeType: String, url: URL, httpMehtod: HTTPMethod,
-        networkType: URLRequest.NetworkServiceType,
-        headers: [String : String],
-        timeoutInterval: TimeInterval
+        networkType: URLRequest.NetworkServiceType?,
+        headers: [String : String]?,
+        timeoutInterval: TimeInterval?
     ) {
         self.fileData = fileData
         self.filename = filename

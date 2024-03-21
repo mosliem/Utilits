@@ -48,14 +48,14 @@ extension MultiPartRequsetable {
     }
     
     func buildBody(){
-       var requestBody = Data()
-        requestBody.append(contentsOf: boundaryPrefix!.utf8)
-        requestBody.append(contentsOf: "Content-Disposition: form-data; name=\"file\"; filename=\"\(filename)\"\r\n".utf8)
-        requestBody.append(contentsOf: "Content-Type: \(mimeType)\r\n\r\n".utf8)
-        requestBody.append(fileData)
-        requestBody.append(contentsOf:"\r\n".utf8)
-        requestBody.append(contentsOf: boundaryPostfix!.utf8)
-        requestBody.append(contentsOf:"\r\n".utf8)
+        httpBody = Data()
+        httpBody?.append(contentsOf: boundaryPrefix!.utf8)
+        httpBody?.append(contentsOf: "Content-Disposition: form-data; name=\"file\"; filename=\"\(filename)\"\r\n".utf8)
+        httpBody?.append(contentsOf: "Content-Type: \(mimeType)\r\n\r\n".utf8)
+        httpBody?.append(fileData)
+        httpBody?.append(contentsOf:"\r\n".utf8)
+        httpBody?.append(contentsOf: boundaryPostfix!.utf8)
+        httpBody?.append(contentsOf:"\r\n".utf8)
     }
 
 }

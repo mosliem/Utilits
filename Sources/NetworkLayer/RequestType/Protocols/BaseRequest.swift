@@ -11,10 +11,10 @@ import Foundation
     
     var url: URL { get set }
     var httpMehtod: HTTPMethod { get set }
-    var networkType: URLRequest.NetworkServiceType { get set }
-    var headers: [String: String] { get set }
+    var networkType: URLRequest.NetworkServiceType? { get set }
+    var headers: [String: String]? { get set }
     var httpBody: Data? { get set }
-    var timeoutInterval: TimeInterval { get set }
+    var timeoutInterval: TimeInterval? { get set }
     
     var request: URLRequest? { get set }
     
@@ -37,6 +37,7 @@ extension BaseRequestable {
     }
     
     public func setHttpHeaders(){
+        guard let headers = headers else { return }
         request?.allHTTPHeaderFields = headers
     }
     
@@ -45,10 +46,12 @@ extension BaseRequestable {
     }
  
     public func setNetworkType(){
+        guard let networkType = networkType else { return }
         request?.networkServiceType = networkType
     }
     
     public func setTimeInterval(){
+        guard let timeoutInterval = timeoutInterval else { return }
         request?.timeoutInterval = timeoutInterval
     }
     
