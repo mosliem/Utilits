@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import Combine
 
 class APIProvider {
     
@@ -14,8 +15,8 @@ class APIProvider {
     
     func executeRequest(request: URLRequest) async throws -> (Data, URLResponse){
         do {
-            let (data, response) = try await URLSession.shared.data(for: request)
-            return (data, response)
+            async let (data, response) = URLSession.shared.data(for: request)
+            return try await (data, response)
         }
         catch{
             throw error
