@@ -24,7 +24,7 @@ import Foundation
      func setHttpBody()
      func setNetworkType()
      func setTimeInterval()
-     func build() -> URLRequest?
+     func build() -> URLRequest
 }
 
 extension BaseRequestable {
@@ -55,7 +55,7 @@ extension BaseRequestable {
         request?.timeoutInterval = timeoutInterval
     }
     
-    public func build() -> URLRequest? {
-        return request
+    public func build() -> URLRequest {
+        return request!
     }
 }

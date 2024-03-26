@@ -10,10 +10,8 @@ class Containter {
     
     func injectApiClient(with endpoint: Requsetable) -> APIExecuter {
         
-        let urlValidator: Validator = URLValidator()
         let urlBuilder: URLBuildable = URLBuilder(
-            endpoint: endpoint,
-            validator: urlValidator
+            endpoint: endpoint
         )
         let requestBuilder: RequestBuildable = RequestBuilder(endpoint: endpoint)
         

@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import Combine
 
 protocol APIExecuter {
     
@@ -13,18 +14,14 @@ protocol APIExecuter {
     var urlBuilder: URLBuildable { get set }
     var requestBuilder: RequestBuildable { get set }
     
-    func executeRequest <modelType: Codable>(
-        model: modelType.Type
-    ) async throws -> modelType
-    
-    func executeRequestWithBody <modelType: Encodable> (
-        model: modelType
-    ) async throws -> Bool
-    
-    func executeRequest(
+    func executeRequest <APIResponse: Codable>(
+        model: APIResponse.Type,
+        body: [String: String]?
+    ) -> AnyPublisher<APIResponse, APIError>
+
+    func executeRequest <APIResponse: Codable>(
         fileName: String,
-        fileData: Data
-    ) async throws -> Bool
-    
-    func executeRequest() async throws -> Data
+        fileData: Data,
+        model: APIResponse.Type
+    )  ->  AnyPublisher<APIResponse,APIError>
 }

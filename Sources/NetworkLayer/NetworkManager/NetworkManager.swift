@@ -2,6 +2,7 @@
 
 
 import Foundation
+import Combine
 
 class NetworkManager {
     
@@ -12,36 +13,20 @@ class NetworkManager {
     
     public func executeRequest <ModelType: Codable> (
         with endpoint: Requsetable,
-        model: ModelType.Type
-    ) async throws -> ModelType {
+        model: ModelType.Type,
+        body: [String: String]
+    )  -> AnyPublisher<ModelType, APIError> {
         apiClient = Containter.shared.injectApiClient(with: endpoint)
-        let result = try await apiClient.executeRequest(model: ModelType.self)
-        return result
+        return apiClient.executeRequest(model: ModelType.self, body: body)
     }
     
-    public func executeRequest <ModelType: Encodable> (
-        with endpoint: Requsetable,
-        model: ModelType
-    ) async throws -> Bool {
-        apiClient = Containter.shared.injectApiClient(with: endpoint)
-        let result = try await apiClient.executeRequestWithBody(model: model)
-        return result
-    }
-    
-    public func executeMultipart(
+    public func executeMultipart <ModelType: Codable>(
         with endpoint: Requsetable,
         fileName: String,
-        fileData: Data
-    ) async throws -> Bool {
+        fileData: Data,
+        model: ModelType.Type
+    ) -> AnyPublisher<ModelType, APIError>  {
         apiClient = Containter.shared.injectApiClient(with: endpoint)
-        let result = try await apiClient.executeRequest(fileName: fileName, fileData: fileData)
-        return result
+        return apiClient.executeRequest(fileName: fileName, fileData: fileData, model: model)
     }
-    
-    public func downloadData(from endpoint: Requsetable) async throws -> Data {
-        apiClient = Containter.shared.injectApiClient(with: endpoint)
-        let result = try await apiClient.executeRequest()
-        return result
-    }
-    
 }

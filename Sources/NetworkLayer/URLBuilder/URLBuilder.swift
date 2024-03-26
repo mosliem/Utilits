@@ -15,7 +15,6 @@ class URLBuilder: URLBuildable {
     private var queryItems: [String: Any] = [:]
     private var port: Int?
     
-    private var urlValidator: Validator
     private var endpoint: Requsetable
     //MARK: -  URL Components
     //parsing url components to assign queries and port number to URL
@@ -34,7 +33,7 @@ class URLBuilder: URLBuildable {
         self.port = endpoint.port
     }
     
-    public func build() -> Result<URL, Error> {
+    public func build() throws -> URL {
         
         let hostURL = buildHostURL()
         let fullURL = buildUrl(with: hostURL , relative: path)
@@ -46,9 +45,9 @@ class URLBuilder: URLBuildable {
         }
         
         guard let url = urlComponents?.url else {
-            return .failure(URLError.urlComponentError)
+            throw URLError.urlComponentError
         }
-        return .success(url)
+        return url
     }
     
     private func buildHostURL()  -> String {

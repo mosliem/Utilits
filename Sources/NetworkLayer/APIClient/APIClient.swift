@@ -6,84 +6,98 @@
 //
 
 import Foundation
-
+import Combine
 class APIClient: APIExecuter {
     
     var endpoint: Requsetable
     var urlBuilder: URLBuildable
     var requestBuilder: RequestBuildable
-
     init(endpoint: Requsetable, urlBuilder: URLBuildable, requestBuilder: RequestBuildable) {
         self.endpoint = endpoint
         self.urlBuilder = urlBuilder
         self.requestBuilder = requestBuilder
     }
     
-    public func executeRequest <modelType: Codable>(
-        model: modelType.Type
-    ) async throws -> modelType {
-        var url: URL
+    public func executeRequest <APIResponse: Codable>(
+        model: APIResponse.Type,
+        body: [String: String]? = nil
+    )  -> AnyPublisher<APIResponse, APIError> {
+        var url: URL!
         
         do{
             url = try urlBuilder.build()
-            let request = requestBuilder.buildRequest(with: url)
-            let (data,_) = try await APIProvider.shared.executeRequest(request: request!)
-            let decodedData = try JSONDecoder().decode(model.self, from: data)
-            return decodedData
-
+            if let body {
+                endpoint.httpBody = try JSONEncoder().encode(body)
+            }
         }
-        catch {
-            throw error
+        catch{
+            print(URLError.urlComponentError.description)
         }
+        
+        let request = requestBuilder.buildRequest(with: url)
+        
+        return URLSession.shared.dataTaskPublisher(for: request)
+            .subscribe(on: DispatchQueue.global(qos: .background))
+            .tryMap { data, response in
+                guard let response = response as? HTTPURLResponse else {
+                    throw APIError.requestFailed
+                }
+                
+                guard response.statusCode < 300 else {
+                    throw APIError.customError(statusCode: response.statusCode)
+                }
+                
+                return data
+            }
+            .decode(type: model.self, decoder: JSONDecoder())
+            .mapError({ error in
+                return APIError.decodingFailed
+            })
+            .eraseToAnyPublisher()
+        
     }
     
-    public func executeRequestWithBody <modelType: Encodable> (
-        model: modelType
-    ) async throws -> Bool {
-        var url: URL
-        do{
-            url = try urlBuilder.build()
-            endpoint.httpBody = try JSONEncoder().encode(model)
-            let request = (requestBuilder.buildRequestWithBody(with: url, httpBody: endpoint.httpBody))!
-            let (_,response) = try await APIProvider.shared.executeRequest(request: request)
-            return (response as? HTTPURLResponse)!.statusCode < 300
-        }
-        catch {
-            throw error
-        }
-        
-    }
     
     //UplaodTask
-    public func executeRequest(
+    public func executeRequest <APIResponse: Codable>(
         fileName: String,
-        fileData: Data
-    ) async throws -> Bool{
+        fileData: Data,
+        model: APIResponse.Type
+    )  ->  AnyPublisher<APIResponse,APIError> {
         var url: URL
+        var request: URLRequest!
         do{
             url = try urlBuilder.build()
             let mime = MimeTypeExtractor.shared.mimeType(for: fileName)
-            let request = try requestBuilder.buildMultipartRequest(with: url, filename: fileName, filedata: fileData, mimeType: mime)
-            let (_,response) = try await APIProvider.shared.executeRequest(request: request!)
-            return (response as? HTTPURLResponse)!.statusCode < 300
+            request = try requestBuilder.buildMultipartRequest(with: url, filename: fileName, filedata: fileData, mimeType: mime)
         }
-        catch {
-            throw error
+        catch let error as URLError where error == .hostError || error == .urlComponentError {
+            print(error)
         }
-    }
-    
-
-    public func executeRequest() async throws -> Data{
-        do{
-            let url = try urlBuilder.build()
-            let request = (requestBuilder.buildRequest(with: url))!
-            let (data,_) = try await APIProvider.shared.executeRequest(request: request)
-            return data
+        catch let error as RequestBuilderError where error == .noMultipartDataFound {
+            print(error)
         }
         catch{
-            throw error
+            print(error)
         }
+        
+        return URLSession.shared.dataTaskPublisher(for: request)
+            .subscribe(on: DispatchQueue.global(qos: .background))
+            .tryMap { data, response in
+                guard let response = response as? HTTPURLResponse else {
+                    throw APIError.requestFailed
+                }
+                
+                guard response.statusCode < 300 else {
+                    throw APIError.customError(statusCode: response.statusCode)
+                }
+                
+                return data
+            }
+            .decode(type: APIResponse.self, decoder: JSONDecoder())
+            .mapError({ error in
+                return APIError.decodingFailed
+            })
+            .eraseToAnyPublisher()
     }
-    
-    
 }

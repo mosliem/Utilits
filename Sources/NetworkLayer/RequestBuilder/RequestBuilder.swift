@@ -16,7 +16,7 @@ class RequestBuilder: RequestBuildable {
     }
     
     //Base request for get and head methods
-    public func buildRequest(with url: URL) -> URLRequest? {
+    public func buildRequest(with url: URL) -> URLRequest {
         
         let request: BaseRequestable = Request(
             url: url,
@@ -30,7 +30,7 @@ class RequestBuilder: RequestBuildable {
     }
     
     // POST JSON data
-    public func buildRequestWithBody(with url: URL, httpBody: Data?) -> URLRequest? {
+    public func buildRequestWithBody(with url: URL, httpBody: Data?) -> URLRequest {
         
         let request: BaseRequestable = Request(
             url: url,
@@ -52,7 +52,7 @@ class RequestBuilder: RequestBuildable {
         filename: String,
         filedata: Data?,
         mimeType: String
-    ) throws -> URLRequest?{
+    ) throws -> URLRequest{
         
         guard let filedata = filedata else {
             throw RequestBuilderError.noMultipartDataFound
