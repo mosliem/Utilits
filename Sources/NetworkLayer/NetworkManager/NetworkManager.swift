@@ -4,7 +4,7 @@
 import Foundation
 import Combine
 
-class NetworkManager {
+public class NetworkManager {
     
     public static let shared = NetworkManager()
     

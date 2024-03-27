@@ -34,7 +34,14 @@ class APIClient: APIExecuter {
             print(URLError.urlComponentError.description)
         }
         
-        let request = requestBuilder.buildRequest(with: url)
+        var request: URLRequest
+        
+        if let data = endpoint.httpBody {
+            request = requestBuilder.buildRequestWithBody(with: url, httpBody: data)
+        }
+        else {
+            request = requestBuilder.buildRequest(with: url)
+        }
         
         return URLSession.shared.dataTaskPublisher(for: request)
             .subscribe(on: DispatchQueue.global(qos: .background))
@@ -44,9 +51,11 @@ class APIClient: APIExecuter {
                 }
                 
                 guard response.statusCode < 300 else {
+                    print(APIError.customError(statusCode: response.statusCode))
                     throw APIError.customError(statusCode: response.statusCode)
                 }
-                
+                print(try! JSONSerialization.jsonObject(with: data))
+
                 return data
             }
             .decode(type: model.self, decoder: JSONDecoder())

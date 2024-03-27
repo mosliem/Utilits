@@ -13,7 +13,7 @@ public protocol Requsetable {
     var schema: String { get }
     var host: String { get }
     var path: String {get}
-    var queryParameters: [String: Any] {get set}
+    var queryParameters: [String: Any]? {get set}
     var port: Int? { get set }
 
     //MARK: - Request

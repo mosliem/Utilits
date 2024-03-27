@@ -12,7 +12,7 @@ class URLBuilder: URLBuildable {
     private var schema: String = ""
     private var host: String = ""
     private var path: String = ""
-    private var queryItems: [String: Any] = [:]
+    private var queryItems: [String: Any]?
     private var port: Int?
     
     private var endpoint: Requsetable
@@ -36,11 +36,20 @@ class URLBuilder: URLBuildable {
     public func build() throws -> URL {
         
         let hostURL = buildHostURL()
-        let fullURL = buildUrl(with: hostURL , relative: path)
-        include(queryParamters: queryItems, with: fullURL)
+        let fullURL = buildUrl(with: path , relative: hostURL)
         
+        guard let fullURL else {
+            throw URLError.hostError
+        }
+        
+        initURLCompentents(with: fullURL)
+        
+        if let queryItems {
+            include(queryParamters: queryItems, with: fullURL)
+        }
         //Assigning port number if it existed
-        if let port = port {
+    
+        if let port {
             setURL(portNumber: port)
         }
         
