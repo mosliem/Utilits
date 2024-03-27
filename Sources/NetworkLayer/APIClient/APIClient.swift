@@ -51,11 +51,8 @@ class APIClient: APIExecuter {
                 }
                 
                 guard response.statusCode < 300 else {
-                    print(APIError.customError(statusCode: response.statusCode))
                     throw APIError.customError(statusCode: response.statusCode)
                 }
-                print(try! JSONSerialization.jsonObject(with: data))
-
                 return data
             }
             .decode(type: model.self, decoder: JSONDecoder())
@@ -81,13 +78,13 @@ class APIClient: APIExecuter {
             request = try requestBuilder.buildMultipartRequest(with: url, filename: fileName, filedata: fileData, mimeType: mime)
         }
         catch let error as URLError where error == .hostError || error == .urlComponentError {
-            print(error)
+            print(error.description)
         }
         catch let error as RequestBuilderError where error == .noMultipartDataFound {
-            print(error)
+            print(error.description)
         }
         catch{
-            print(error)
+            print(error.localizedDescription)
         }
         
         return URLSession.shared.dataTaskPublisher(for: request)
