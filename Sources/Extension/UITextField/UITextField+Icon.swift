@@ -44,7 +44,7 @@ extension UITextField {
     public func addIcon(_ image: UIImage, padding: CGFloat, side: IconSide) {
         let frame = CGRect(x: 0, y: 0, width: image.size.width + padding, height: image.size.height)
         let iconView = UIView(frame: frame)
-        let iconImageView = UIImageView(frame: frame)
+        let iconImageView = UIImageView(frame: CGRect(x: padding, y: 0, width: image.size.width, height: image.size.height))
         
         iconImageView.image = image
         iconView.addSubview(iconImageView)
