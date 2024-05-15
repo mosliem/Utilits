@@ -9,7 +9,7 @@ import Foundation
 
 public class LanguageManager {
     
-    static let shared = LanguageManager()
+    public static let shared = LanguageManager()
     
     private lazy var systemLanguage = UserDefaults
         .standard
