@@ -9,7 +9,7 @@ import Foundation
 
 import UIKit
 
-class LocalizationHandler: NSObject {
+public class LocalizationHandler: NSObject {
     
     var bundle: Bundle!
     
