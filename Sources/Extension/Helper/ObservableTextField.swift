@@ -9,11 +9,11 @@ import UIKit
 
 var IdentifiableObserverKey = "kIdentifiableObserverKey"
 
-protocol observableTextField: UITextField {
+public protocol observableTextField: UITextField {
     func bind(observer: @escaping (String) -> Void)
 }
 
-extension observableTextField {
+public extension observableTextField {
     var textChanged: (String) -> Void {
         get {
             return (objc_getAssociatedObject(self, &IdentifiableObserverKey)) as! (String) -> Void
