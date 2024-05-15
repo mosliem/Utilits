@@ -25,7 +25,17 @@ class LanguageManager {
     
     private init(){}
     
-    func getCurrentLanguage() -> String {
+    //Called in App luanching
+    func prepareAppLanguage(){
+        let currentLanguage = getCurrentLanguage()
+        LocalizationHandler
+            .shared
+            .setLanguage(languageCode: currentLanguage)
+        
+        UserDefaults.standard.synchronize()
+    }
+    
+    private func getCurrentLanguage() -> String {
         
         if let selectedLanguage {
             return selectedLanguage
