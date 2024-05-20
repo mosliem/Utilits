@@ -10,7 +10,7 @@ import UIKit
 
 extension UIView {
     
-    func addHorizonalGradientLayer(
+    public func addHorizonalGradientLayer(
         with colors: [UIColor],
         locations: [NSNumber]
     ) {
@@ -27,7 +27,7 @@ extension UIView {
         self.layer.addSublayer(gradient)
     }
     
-    func addVerticalGradientLayer(
+    public func addVerticalGradientLayer(
         with colors: [UIColor],
         locations: [NSNumber]
     ) {
