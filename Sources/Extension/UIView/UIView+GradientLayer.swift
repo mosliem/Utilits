@@ -1,6 +1,6 @@
 //
 //  File.swift
-//  
+//
 //
 //  Created by mohamed sliem on 20/05/2024.
 //
@@ -11,7 +11,7 @@ import UIKit
 extension UIView {
     
     public func addHorizonalGradientLayer(
-        with colors: [UIColor],
+        with colors: [CGColor],
         locations: [NSNumber]
     ) {
         let gradient = CAGradientLayer()
@@ -28,7 +28,7 @@ extension UIView {
     }
     
     public func addVerticalGradientLayer(
-        with colors: [UIColor],
+        with colors: [CGColor],
         locations: [NSNumber]
     ) {
         let gradient = CAGradientLayer()
