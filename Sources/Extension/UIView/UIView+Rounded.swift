@@ -21,7 +21,7 @@ extension UIView {
     
     public func roundView(cornerRadius: CGFloat){
         self.layer.cornerRadius = cornerRadius
-        self.layer.masksToBounds = true
+        self.clipsToBounds = true
         self.setNeedsDisplay()
     }
     
