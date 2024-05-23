@@ -13,7 +13,7 @@ public class LocalizationHandler: NSObject {
     
     var bundle: Bundle!
     
-    static let shared = LocalizationHandler()
+    public static let shared = LocalizationHandler()
     
     override init() {
         super.init()
