@@ -20,7 +20,7 @@ public class LocalizationHandler: NSObject {
         bundle = Bundle.main
     }
     
-    func localizedString(key: String, comment: String) -> String {
+   public func localizedString(key: String, comment: String) -> String {
         return bundle.localizedString(
             forKey: key,
             value: comment,
@@ -28,7 +28,7 @@ public class LocalizationHandler: NSObject {
         )
     }
 
-    func setLanguage(languageCode: String) {
+    public func setLanguage(languageCode: String) {
         
         if let languageDirectoryPath = Bundle.main.path(
             forResource: languageCode,

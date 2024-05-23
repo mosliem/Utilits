@@ -26,7 +26,7 @@ public class LanguageManager {
     private init(){}
     
     //Called in App luanching
-    func prepareAppLanguage(){
+   public func prepareAppLanguage(){
         let currentLanguage = getCurrentLanguage()
         LocalizationHandler
             .shared
