@@ -35,7 +35,7 @@ public class LanguageManager {
         UserDefaults.standard.synchronize()
     }
     
-    private func getCurrentLanguage() -> String {
+    public func getCurrentLanguage() -> String {
         
         if let selectedLanguage {
             return selectedLanguage

@@ -18,6 +18,7 @@ extension UIView {
             return nil
         }
         
+        contentView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         self.addSubview(contentView)
         contentView.setConstraints(
             top: topAnchor,
