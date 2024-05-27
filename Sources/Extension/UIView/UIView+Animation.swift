@@ -33,4 +33,13 @@ extension UIView {
         })
     }
     
+    public func animateView(duration: CGFloat, options: UIView.AnimationOptions, animation: @escaping() -> Void){
+        UIView.transition(
+            with: self,
+            duration: duration ,
+            options: .transitionCrossDissolve,
+            animations: animation
+        )
+    }
+    
 }
