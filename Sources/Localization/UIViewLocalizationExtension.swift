@@ -10,10 +10,10 @@ import UIKit
 extension UIView {
     public func semanitacContent(){
         if LanguageManager.shared.getCurrentLanguage() == "ar" {
-            self.semanticContentAttribute = .forceLeftToRight
+            self.semanticContentAttribute = .forceRightToLeft
         }
         else {
-            self.semanticContentAttribute = .forceRightToLeft
+            self.semanticContentAttribute = .forceLeftToRight
         }
     }
 }
