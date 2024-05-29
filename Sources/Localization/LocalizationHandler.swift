@@ -35,6 +35,7 @@ public class LocalizationHandler: NSObject {
             ofType: "lproj"
         )  {
             bundle = Bundle.init(path: languageDirectoryPath)
+            print(bundle)
         } else {
             resetLocalization()
         }
