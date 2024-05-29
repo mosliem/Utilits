@@ -57,6 +57,7 @@ public class LanguageManager {
             )
         
         UserDefaults.standard.synchronize() //needs restrat
+        LocalizationHandler.shared.setLanguage(languageCode: languageCode)
         
     }
     
