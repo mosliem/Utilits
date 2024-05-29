@@ -48,7 +48,7 @@ public class LanguageManager {
         }
     }
     
-    func changeCurrentLangauge(with languageCode: String){
+    public func changeCurrentLangauge(with languageCode: String){
         UserDefaults
             .standard
             .setValue(
