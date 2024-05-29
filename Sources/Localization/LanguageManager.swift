@@ -38,6 +38,7 @@ public class LanguageManager {
     public func getCurrentLanguage() -> String {
         
         if let selectedLanguage {
+            print("selected")
             return selectedLanguage
         }
         else {
