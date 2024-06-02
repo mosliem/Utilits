@@ -13,7 +13,7 @@ public enum APIError: Error, Equatable {
     case customError(statusCode: Int)
 }
 
-extension APIError {
+public extension APIError {
   public var description: String {
         switch self {
         case .requestFailed:

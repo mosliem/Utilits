@@ -11,17 +11,29 @@ public class LanguageManager {
     
     public static let shared = LanguageManager()
     
-    private lazy var systemLanguage = UserDefaults
-        .standard
-        .stringArray(
-            forKey: "AppleLanguages"
-        )
+    private var systemLanguage: [String]? {
+        get{
+            UserDefaults
+                .standard
+                .stringArray(
+                    forKey: "AppleLanguages"
+                )
+        }
+        set {
+            UserDefaults.standard.set(
+                newValue,
+                forKey: LanguageConstant.systemPreferredLanguage
+            )
+        }
+    }
     
-    private lazy var selectedLanguage: String? = UserDefaults
+    private var selectedLanguage: String? {
+        UserDefaults
         .standard
         .value(
             forKey: LanguageConstant.currentAppLanguage
         ) as? String
+    }
     
     private init(){}
     
@@ -31,14 +43,12 @@ public class LanguageManager {
         LocalizationHandler
             .shared
             .setLanguage(languageCode: currentLanguage)
-        
         UserDefaults.standard.synchronize()
     }
     
     public func getCurrentLanguage() -> String {
         
         if let selectedLanguage {
-            print("selected")
             return selectedLanguage
         }
         else {
@@ -57,6 +67,9 @@ public class LanguageManager {
                 forKey: LanguageConstant.currentAppLanguage
             )
         
+        var langArr: [String] = []
+        langArr.insert(languageCode + "-EG", at: 0)
+        systemLanguage = langArr
         UserDefaults.standard.synchronize() //needs restrat
         LocalizationHandler.shared.setLanguage(languageCode: languageCode)
         

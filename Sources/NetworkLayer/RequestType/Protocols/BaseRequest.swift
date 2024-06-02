@@ -30,6 +30,7 @@ import Foundation
 extension BaseRequestable {
     public func inializedRequest() {
         request = URLRequest(url: url)
+        httpBody = Data()
     }
     
     public func setHttpMethod(){

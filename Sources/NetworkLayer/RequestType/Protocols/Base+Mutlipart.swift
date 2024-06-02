@@ -7,14 +7,19 @@
 
 import Foundation
 
+public enum MultiPartFormDataType {
+    case text
+    case file
+}
+
 protocol MultiPartRequsetable: BaseRequestable {
-    var boundary: String? { get set }
+    var boundary: String { get set }
     var boundaryPostfix: String? { get set }
     var boundaryPrefix: String? { get set }
    
-    var fileData: Data { get set }
-    var filename: String { get set }
-    var mimeType: String { get set }
+    var fileData: Data? { get set }
+    var filename: String? { get set }
+    var mimeType: String? { get set }
 
     var requestBody: Data? { get set }
     
@@ -23,7 +28,6 @@ protocol MultiPartRequsetable: BaseRequestable {
     func buildBoundaryPrefix()
     func buildBoundaryPostfix()
     func setMultipartHeader()
-    func buildBody()
 }
 
 extension MultiPartRequsetable {
@@ -47,15 +51,26 @@ extension MultiPartRequsetable {
         request?.setValue("multipart/form-data; boundary=\(String(describing: boundary))", forHTTPHeaderField: "Content-Type")
     }
     
-    func buildBody(){
+    func buildTextMultiBody(with key: String, value: Any) -> Data{
+        var bodyString = ""
+        bodyString += boundaryPrefix!
+        bodyString += "Content-Disposition:form-data; name=\"\(key)\""
+        bodyString += "\r\n\r\n\(value)\r\n"
+        return bodyString.data(using: .utf8)!
+    }
+    
+    func setFileMutliBody(filename: String? = nil, mime: String? = nil, fileData: Data){
         httpBody = Data()
         httpBody?.append(contentsOf: boundaryPrefix!.utf8)
-        httpBody?.append(contentsOf: "Content-Disposition: form-data; name=\"file\"; filename=\"\(filename)\"\r\n".utf8)
-        httpBody?.append(contentsOf: "Content-Type: \(mimeType)\r\n\r\n".utf8)
+        httpBody?.append(contentsOf: "Content-Disposition:form-data; name=\"file\"; filename=\(filename!)\r\n".utf8)
+        httpBody?.append(contentsOf: "Content-Type: \(mime!)\r\n\r\n".utf8)
         httpBody?.append(fileData)
         httpBody?.append(contentsOf:"\r\n".utf8)
-        httpBody?.append(contentsOf: boundaryPostfix!.utf8)
         httpBody?.append(contentsOf:"\r\n".utf8)
+    }
+    
+    func appendPostfixBoundry(){
+        httpBody?.append(contentsOf: boundaryPostfix!.utf8)
     }
 
 }

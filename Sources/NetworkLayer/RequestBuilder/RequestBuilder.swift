@@ -46,7 +46,46 @@ class RequestBuilder: RequestBuildable {
         return request.build()
     }
     
-    //Multipart request
+    public func buildCompoundMultipartRequest(
+        url: URL,
+        data: [String: (MultiPartFormDataType, Any)]
+    ) throws -> URLRequest {
+        let request: MultiPartRequsetable = MultiPartRequest(
+            url: url,
+            httpMehtod: endpoint.httpMethod,
+            networkType: endpoint.networkService,
+            headers: endpoint.headers,
+            timeoutInterval: endpoint.timeoutInterval
+        )
+        
+        buildBaseRequest(request: request)
+        
+        request.buildBoundary()
+        request.buildBoundaryPrefix()
+        request.buildBoundaryPostfix()
+        request.setMultipartHeader()
+        for field in data {
+            
+            if field.value.0 == .text {
+                let fieldEncoding = request.buildTextMultiBody(with: field.key, value: field.value.1)
+                request.httpBody?.append(fieldEncoding)
+            }
+            else if field.value.0 == .file {
+                guard let data = field.value.1 as? Data else {
+                    throw RequestBuilderError.noMultipartDataFound
+                }
+                let filename = field.key + UUID().uuidString
+                let mime = MimeTypeExtractor.shared.mimeType(for: field.key)
+                request.setFileMutliBody(filename: filename, mime: mime, fileData: data)
+            }
+        }
+        request.appendPostfixBoundry()
+        request.setHttpBody()
+        
+        return request.build()
+    }
+    
+    //Multipart request for only files
     public func buildMultipartRequest(
         with url: URL,
         filename: String,
@@ -69,6 +108,7 @@ class RequestBuilder: RequestBuildable {
             timeoutInterval: endpoint.timeoutInterval
         )
         
+        let mime = MimeTypeExtractor.shared.mimeType(for: filename)
         buildBaseRequest(request: request)
         
         request.buildBoundary()
@@ -76,7 +116,8 @@ class RequestBuilder: RequestBuildable {
         request.buildBoundaryPostfix()
         request.handleFileName()
         request.setMultipartHeader()
-        request.buildBody()
+        request.setFileMutliBody(filename: filename, mime: mime, fileData: filedata)
+        request.appendPostfixBoundry()
         request.setHttpBody()
         
         return request.build()

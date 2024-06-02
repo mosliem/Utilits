@@ -10,7 +10,11 @@ import Foundation
 protocol RequestBuildable {
     func buildRequest(with url: URL) -> URLRequest
     func buildRequestWithBody(with url: URL, httpBody: Data?) -> URLRequest
-
+    func buildCompoundMultipartRequest(
+        url: URL,
+        data: [String: (MultiPartFormDataType, Any)]
+    )  throws -> URLRequest
+    
     func buildMultipartRequest(
         with url: URL,
         filename: String,

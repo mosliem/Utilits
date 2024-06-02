@@ -20,7 +20,7 @@ public class LocalizationHandler: NSObject {
         bundle = Bundle.main
     }
     
-   public func localizedString(key: String, comment: String) -> String {
+   public func localizedString(key: String, comment: String? = "") -> String {
         return bundle.localizedString(
             forKey: key,
             value: comment,

@@ -16,9 +16,14 @@ protocol APIExecuter {
     
     func executeRequest <APIResponse: Codable>(
         model: APIResponse.Type,
-        body: [String: String]?
+        body: [String: Any]?
     ) -> AnyPublisher<APIResponse, APIError>
 
+    func executeRequest<APIResponse: Codable>(
+        data: [String: (MultiPartFormDataType, Any)],
+        model: APIResponse.Type
+    ) -> AnyPublisher <APIResponse, APIError>
+    
     func executeRequest <APIResponse: Codable>(
         fileName: String,
         fileData: Data,

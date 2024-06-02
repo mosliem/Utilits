@@ -9,13 +9,13 @@ import Foundation
 
 class MultiPartRequest: MultiPartRequsetable {
     
-    var boundary: String?
+    var boundary: String = ""
     var boundaryPostfix: String?
     var boundaryPrefix: String?
     
-    var fileData: Data
-    var filename: String
-    var mimeType: String
+    var fileData: Data?
+    var filename: String?
+    var mimeType: String?
     var requestBody: Data?
     var url: URL
     
@@ -28,8 +28,8 @@ class MultiPartRequest: MultiPartRequsetable {
     var request: URLRequest?
     
     init(
-        fileData: Data, filename: String,
-        mimeType: String, url: URL, httpMehtod: HTTPMethod,
+        fileData: Data? = nil, filename: String? = nil,
+        mimeType: String? = nil, url: URL, httpMehtod: HTTPMethod,
         networkType: URLRequest.NetworkServiceType?,
         headers: [String : String]?,
         timeoutInterval: TimeInterval?
