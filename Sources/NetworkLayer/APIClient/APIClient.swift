@@ -29,7 +29,6 @@ class APIClient: APIExecuter {
             if let body, !body.isEmpty {
                 endpoint.httpBody = try? JSONSerialization.data(withJSONObject: body, options: .fragmentsAllowed)
             }
-            print(String(data: endpoint.httpBody!, encoding: .utf8))
         }
         catch{
             print(URLError.urlComponentError.description)
@@ -43,9 +42,11 @@ class APIClient: APIExecuter {
         else {
             request = requestBuilder.buildRequest(with: url)
         }
+    
         return URLSession.shared.dataTaskPublisher(for: request)
             .subscribe(on: DispatchQueue.global(qos: .background))
             .tryMap { data, response in
+         
                 guard let response = response as? HTTPURLResponse else {
                     throw APIError.requestFailed
                 }
@@ -57,6 +58,7 @@ class APIClient: APIExecuter {
             }
             .decode(type: model.self, decoder: JSONDecoder())
             .mapError({ error in
+                print(error)
                 return APIError.decodingFailed
             })
             .eraseToAnyPublisher()
