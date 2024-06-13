@@ -42,11 +42,10 @@ class APIClient: APIExecuter {
         else {
             request = requestBuilder.buildRequest(with: url)
         }
-    
         return URLSession.shared.dataTaskPublisher(for: request)
             .subscribe(on: DispatchQueue.global(qos: .background))
             .tryMap { data, response in
-         
+                print(try? JSONSerialization.jsonObject(with: data))
                 guard let response = response as? HTTPURLResponse else {
                     throw APIError.requestFailed
                 }
@@ -86,7 +85,7 @@ class APIClient: APIExecuter {
         catch{
             print(error.localizedDescription)
         }
-        
+
         return URLSession.shared.dataTaskPublisher(for: request)
             .subscribe(on: DispatchQueue.global(qos: .background))
             .tryMap { data, response in

@@ -76,12 +76,12 @@ class RequestBuilder: RequestBuildable {
                 }
                 let filename = field.key + UUID().uuidString
                 let mime = MimeTypeExtractor.shared.mimeType(for: field.key)
-                request.setFileMutliBody(filename: filename, mime: mime, fileData: data)
+                let fileData = request.setFileMutliBody(filename: filename, mime: mime, fileData: data)
+                request.httpBody?.append(fileData)
             }
         }
         request.appendPostfixBoundry()
-        request.setHttpBody()
-        
+        request.request?.httpBody = request.httpBody
         return request.build()
     }
     

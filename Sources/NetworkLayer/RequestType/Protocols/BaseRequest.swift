@@ -44,6 +44,7 @@ extension BaseRequestable {
     
     public func setHttpBody(){
         request?.httpBody = httpBody
+        print(request?.httpBody)
     }
  
     public func setNetworkType(){

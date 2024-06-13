@@ -59,14 +59,16 @@ extension MultiPartRequsetable {
         return bodyString.data(using: .utf8)!
     }
     
-    func setFileMutliBody(filename: String? = nil, mime: String? = nil, fileData: Data){
-        httpBody = Data()
-        httpBody?.append(contentsOf: boundaryPrefix!.utf8)
-        httpBody?.append(contentsOf: "Content-Disposition:form-data; name=\"file\"; filename=\(filename!)\r\n".utf8)
-        httpBody?.append(contentsOf: "Content-Type: \(mime!)\r\n\r\n".utf8)
-        httpBody?.append(fileData)
-        httpBody?.append(contentsOf:"\r\n".utf8)
-        httpBody?.append(contentsOf:"\r\n".utf8)
+    func setFileMutliBody(filename: String? = nil, mime: String? = nil, fileData: Data) -> Data {
+        var body: Data = .init()
+        body.append(contentsOf: boundaryPrefix!.utf8)
+        body.append(contentsOf: "Content-Disposition:form-data; name=\"file\"; filename=\(filename!)\r\n".utf8)
+        body.append(contentsOf: "Content-Type: \(mime!)\r\n\r\n".utf8)
+        body.append(fileData)
+        body.append(contentsOf:"\r\n".utf8)
+        body.append(contentsOf:"\r\n".utf8)
+        print("set", String(data: body, encoding: .utf8), fileData)
+        return body
     }
     
     func appendPostfixBoundry(){
