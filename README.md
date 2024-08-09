@@ -11,8 +11,8 @@
       -  Build With Protocols.  
  
   
-  - Localization Manager
-      - Handles Setting Languages for the app even app language is different from the system one.
+ - Localization Manager
+      - Handles Setting Languages for the app even if the selected one is different from the system language.
       - Handles RTL and LTR in UIViews
        
   
